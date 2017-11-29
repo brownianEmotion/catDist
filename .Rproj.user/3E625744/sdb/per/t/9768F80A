@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "#This script runs the k-medoids pam() algorithm for k = 5,10,15, and 20\n#The dissimilarity index used is the goodall dissimilarity index, which is calculted\n#through a separate R function using Rcpp\n#\n#Requirements for this script:\n#1.) Final cleaned data - in particular, it should have no NA values\n#     This includes our final variables, plus the insurance variables\n#\n#2.) the goodall index.R program to calculate goodall index\n#\n#3.) data.table() and cluster() libraries\n#\n#load dependencies:\nlibrary(data.table)\nlibrary(cluster)\n#Function for calculating the goodall dissimilarity index -- uses Rcpp for speed:\nsource('goodall index.R', echo=TRUE)\n\n#load data:\nload(\"NHIS_MEPS_Variable_Picked_3.RData\") #normally the absolute filepath would be included here\nload(\"Insr by Dupsd.RData\")\n\n#rename data:\ndat <- data.table(NHIS_MEPS)\ndat_ins <- data.table(dat_ins)\nrm(NHIS_MEPS) #remove the old one\n\n#subset to < age 59:\ndat <- dat[age_p != \"60-64\"]\n\n#set names and merge:\nsetnames(dat, names(dat), tolower(names(dat)))\nsetnames(dat_ins, names(dat_ins), tolower(names(dat_ins)))\ndat2 <- merge(dat, dat_ins, by = \"dupersid\")\n\n#check:\ndim(dat2)\ndim(dat)\n\n#clean up workspace:\ndat <- droplevels(dat2)\nrm(dat2,dat_ins)\n\n#remove continuous expenditure variables:\ndat[,`:=` (totexpy1 = NULL\n           ,totexpy2 = NULL\n           ,iptexpy1 = NULL\n           ,iptexpy2 = NULL\n           ,rxexpy1 = NULL\n           ,rxexpy2 = NULL) ]\n\n#change to data.frame for goodallIndex() function\ndat <- as.data.frame(unclass(dat))\n\n#Calculate the dissimilarity matrix using the function sourced above:\nsystem.time(goodallDist <- goodallIndex(dat, key = \"dupersid\", weights = \"longwt\"))\n\n#run the pam() algorithm using the weighted goodall dissimilarity index\n#for k = 5,10,15,20\nclusterGoodall5 <- pam(goodallDist, diss = TRUE, k = 5)\nclusterGoodall10 <- pam(goodallDist, diss = TRUE, k = 10)\nclusterGoodall15 <- pam(goodallDist, diss = TRUE, k = 15)\nclusterGoodall20 <- pam(goodallDist, diss = TRUE, k = 20)\n\n\n#append the clusters to the data:\ndat$clusterGoodall5  <- clusterGoodall5$clustering\ndat$clusterGoodall10 <- clusterGoodall10$clustering\ndat$clusterGoodall15 <- clusterGoodall15$clustering\ndat$clusterGoodall20 <- clusterGoodall20$clustering\n\n\n#save all the files\nsave(dat, file = \"NHIS_MEPS_with_clusters2.Rdata\") #again, normally includes the absolute filepath\nsave(clusterGoodall5, file = \"goodall_clusters5.Rdata\")\nsave(clusterGoodall10, file = \"goodall_clusters10.Rdata\")\nsave(clusterGoodall15, file = \"goodall_clusters15.Rdata\")\nsave(clusterGoodall20, file = \"goodall_clusters20.Rdata\")\n\n#clean up\nrm(list = ls())\n",
+    "created" : 1509456640780.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "229093785",
+    "id" : "9768F80A",
+    "lastKnownWriteTime" : 1509631666,
+    "last_content_update" : 1509631666,
+    "path" : "~/Research/ML Research/Old/cluster calculation.R",
+    "project_path" : null,
+    "properties" : {
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
