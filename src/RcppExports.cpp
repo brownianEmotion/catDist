@@ -18,6 +18,19 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// inverseOccurenceGather
+NumericMatrix inverseOccurenceGather(NumericMatrix distLookup, StringVector namesDistLookup, StringVector datVar);
+RcppExport SEXP _catDist_inverseOccurenceGather(SEXP distLookupSEXP, SEXP namesDistLookupSEXP, SEXP datVarSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type distLookup(distLookupSEXP);
+    Rcpp::traits::input_parameter< StringVector >::type namesDistLookup(namesDistLookupSEXP);
+    Rcpp::traits::input_parameter< StringVector >::type datVar(datVarSEXP);
+    rcpp_result_gen = Rcpp::wrap(inverseOccurenceGather(distLookup, namesDistLookup, datVar));
+    return rcpp_result_gen;
+END_RCPP
+}
 // goodallIndexGather
 NumericMatrix goodallIndexGather(NumericVector distLookup, StringVector namesDistLookup, StringVector datVar);
 RcppExport SEXP _catDist_goodallIndexGather(SEXP distLookupSEXP, SEXP namesDistLookupSEXP, SEXP datVarSEXP) {
@@ -34,6 +47,7 @@ END_RCPP
 
 static const R_CallMethodDef CallEntries[] = {
     {"_catDist_eskinIndexGather", (DL_FUNC) &_catDist_eskinIndexGather, 3},
+    {"_catDist_inverseOccurenceGather", (DL_FUNC) &_catDist_inverseOccurenceGather, 3},
     {"_catDist_goodallIndexGather", (DL_FUNC) &_catDist_goodallIndexGather, 3},
     {NULL, NULL, 0}
 };

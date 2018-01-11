@@ -5,6 +5,10 @@ eskinIndexGather <- function(freqs, namesFreqs, datVar) {
     .Call('_catDist_eskinIndexGather', PACKAGE = 'catDist', freqs, namesFreqs, datVar)
 }
 
+inverseOccurenceGather <- function(distLookup, namesDistLookup, datVar) {
+    .Call('_catDist_inverseOccurenceGather', PACKAGE = 'catDist', distLookup, namesDistLookup, datVar)
+}
+
 goodallIndexGather <- function(distLookup, namesDistLookup, datVar) {
     .Call('_catDist_goodallIndexGather', PACKAGE = 'catDist', distLookup, namesDistLookup, datVar)
 }

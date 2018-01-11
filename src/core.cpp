@@ -29,13 +29,53 @@ NumericMatrix eskinIndexGather( NumericVector freqs, StringVector namesFreqs, St
 }
 
 // [[Rcpp::export]]
-NumericMatrix goodallIndexGather(NumericVector distLookup, StringVector namesDistLookup,StringVector datVar) {
+NumericMatrix inverseOccurenceGather(NumericMatrix distLookup, StringVector namesDistLookup,StringVector datVar) {
   int n = datVar.size();
   NumericMatrix distAdd(n,n);
 
 
   for (int i = 0; i < n; i++) {
     for (int j = 0; j < i ; j++) {
+
+      if (datVar[i] == datVar[j]) {
+        distAdd(i,j) = 1;
+
+      } else {
+        int index1 = 0;
+        int index2 = 0;
+        for (int k = 0; k < namesDistLookup.size(); k ++) {
+          if( namesDistLookup[k] == datVar[j]) {
+            index1 = k;
+          }
+        }
+        for (int l = 0; l < namesDistLookup.size(); l++) {
+          if( namesDistLookup[l] == datVar[i]) {
+            index2 = l;
+          }
+        }
+
+
+        distAdd(i,j) = distLookup(index1,index2);
+      }
+
+      distAdd(j,i) = distAdd(i,j);
+    }
+  }
+
+  return distAdd;
+
+}
+
+
+
+//[[Rcpp::export]]
+NumericMatrix goodallIndexGather(NumericVector distLookup, StringVector namesDistLookup, StringVector datVar) {
+  int n = datVar.size();
+  NumericMatrix distAdd(n,n);
+
+  for (int i = 0; i < n; i++) {
+    for (int j = 0; j < i ; j++) {
+
 
       if (datVar[i] == datVar[j]) {
         int index = 0;
@@ -55,5 +95,5 @@ NumericMatrix goodallIndexGather(NumericVector distLookup, StringVector namesDis
   }
 
   return distAdd;
-
 }
+

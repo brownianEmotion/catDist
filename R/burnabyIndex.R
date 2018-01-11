@@ -1,6 +1,6 @@
 #' Dissimilarity Indices With or Without Survey Weights
 #'
-#' This function calculates the dissimilarity index based on Goodall
+#' This function calculates the dissimilarity index based on the (inverse) occurence index
 #'
 #' @param dat the data
 #' @param key a character representing the unique key name for observations.
@@ -8,15 +8,15 @@
 #' @param weights a character variable representing the name of the variable
 #' associated with the survey weights
 #' @param simm logical indicating whether a similarity should be returned
-#' @param type a number in 1,2,3, or 4 indicating the the type of goodall index
+#' @param inverse parameter indicating whether to return the inverse occurence frequency or the occurence frequency
 #' @return A matrix of pairwise dissimilarities
 #' @author Joshua Agterberg
 #' @details
-#' This calculates the pairwise dissimilarities for a dataset using the goodall dissimilarity
-#' index first proposed by Goodall.
+#' This calculates the pairwise dissimilarities for a dataset using the (inverse) occurence dissimilarity
+#' index
 #' @useDynLib catDist
 #' @importFrom Rcpp sourceCpp
-goodallIndex <- function(dat, key = NULL, weights = NULL, simm = TRUE,type = 1) {
+burnabyIndex <- function(dat,key = NULL, weights, simm = FALSE, inverse = TRUE) {
   dist <- matrix(0, nrow =nrow(dat), ncol = nrow(dat))   #matrix to be returned
 
   #if key is provided, name the columns of dist:
@@ -43,35 +43,32 @@ goodallIndex <- function(dat, key = NULL, weights = NULL, simm = TRUE,type = 1) 
       })
     }
 
-    distLookup <- rep(0, length(freqs))
-    names(distLookup) <- names(freqs)
+    distLookup <- matrix(0, length(freqs),length(freqs))
+    rownames(distLookup) <- names(freqs)
+    colnames(distLookup) <- names(freqs)
 
-    distLookup <- sapply(names(distLookup), function(p) {
-      if(!is.null(weights)) {
-        m <- sum(dat[,weights])
+    distLookup <- sapply(names(freqs), function(x) {
+      freq1 <- freqs[x]
+      freq2 <- sapply(names(freqs), function(y){
+        return(freqs[y])
+      })
+      if (!inverse) {
+        toReturn <- 1+log(freq1)*log(freq2)
       } else {
-        m <- length(dat[,var])
+        N <- length(freqs)
+        toReturn <- 1+log(N/freq1)*log(N/freq2)
       }
 
-      if (type == 1) {
-        return(1 - sum(ifelse(freqs <= freqs[p],freqs*(freqs - 1),0))/(m*(m-1)))
-      } else if (type == 2) {
-        return(1 - sum(ifelse(freqs >= freqs[p],freqs*(freqs - 1),0))/(m*(m-1)))
-      } else if (type == 3) {
-        return(1 - freqs[p]*(freqs[p] - 1)/(m*(m-1)))
-      } else if (type == 4) {
-        return( freqs[p]*(freqs[p] - 1)/(m*(m-1)))
-      } else {
-        stop("Goodall Index Type must be in types 1,2,3, or 4.  See documentation for help")
-      }
-
+      return(1/toReturn)
     })
 
 
+
+
     #gather the goodall index for this variable
-    distAdd <- goodallIndexGather(distLookup = distLookup
-                                  , namesDistLookup = names(distLookup)
-                                  , datVar = as.character(dat[,var]))
+    distAdd <- inverseOccurenceGather(distLookup = distLookup
+                                      , namesDistLookup = rownames(distLookup)
+                                      , datVar = as.character(dat[,var]))
 
 
     dist = dist + distAdd
@@ -88,14 +85,13 @@ goodallIndex <- function(dat, key = NULL, weights = NULL, simm = TRUE,type = 1) 
 
   #manually assign diagonals to 0 and divide by total number of values
   dist <- dist/numVars
-
-  if (simm) {
-    diag(dist) <- 1
-  } else {
-    dist <- 1- dist
+  if (!simm) {
+    dist <- 1 - dist
     diag(dist) <- 0
+  } else {
+    diag(dist) <- 1
   }
 
   return(dist)
-}
 
+}
