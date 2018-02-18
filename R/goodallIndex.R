@@ -1,4 +1,4 @@
-#' Dissimilarity Indices With or Without Survey Weights
+#' Goodall Index (Versions 1,2,3, and 4) for categorical data
 #'
 #' This function calculates the dissimilarity index based on Goodall
 #'

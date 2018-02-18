@@ -2,4 +2,5 @@
 
 export(catDist)
 importFrom(Rcpp,sourceCpp)
+importFrom(cluster,daisy)
 useDynLib(catDist)

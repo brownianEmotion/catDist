@@ -1,4 +1,4 @@
-#' Dissimilarity Indices With or Without Survey Weights
+#' Occurence (or inverse occurence) index for categorical data
 #'
 #' This function calculates the dissimilarity index based on the (inverse) occurence index
 #'

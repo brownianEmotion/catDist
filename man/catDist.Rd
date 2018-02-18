@@ -5,7 +5,7 @@
 \title{Dissimilarity Indices for Clustering}
 \usage{
 catDist(dat, method = "goodall1", key = NULL, weights = NULL,
-  simm = FALSE)
+  simm = FALSE, metric = "manhattan", ...)
 }
 \arguments{
 \item{dat}{A data.frame or data.frame coercible object}
@@ -17,7 +17,12 @@ catDist(dat, method = "goodall1", key = NULL, weights = NULL,
 \item{weights}{an optional vector containing weights}
 
 \item{simm}{should a similarity index be returned?}
+
+\item{metric}{the metric to be used when continuous variables are given (see @details)}
+
+\item{...}{additional arguments to be passed to daisy for continuous variables}
 }
 \description{
-Dissimilarity Indices for Clustering
+This function calculates the dissimilarity index for categorical data.  In addition,
+it provides a wrapper if numerical data are provided.
 }

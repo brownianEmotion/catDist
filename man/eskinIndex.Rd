@@ -4,16 +4,14 @@
 \alias{eskinIndex}
 \title{Eskin Index for categorical data}
 \usage{
-eskinIndex(dat2, key = NULL, simm = FALSE)
+eskinIndex(dat, key = NULL, simm = FALSE)
 }
 \arguments{
+\item{dat}{the data}
+
 \item{key}{a character representing the unique key name for observations.  For example, this could contain the name of patients in a health dataset.}
 
 \item{simm}{logical indicating whether a similarity should be returned}
-
-\item{dat}{the data}
-
-\item{weights}{a character variable representing the name of the variable associated with the survey weights}
 }
 \value{
 A matrix of pairwise dissimilarities
