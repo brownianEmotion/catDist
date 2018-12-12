@@ -74,7 +74,7 @@ NumericMatrix goodallIndexGather(NumericVector distLookup, StringVector namesDis
   NumericMatrix distAdd(n,n);
 
   for (int i = 0; i < n; i++) {
-    for (int j = 0; j < i ; j++) {
+    for (int j = 0; j <= i ; j++) {
 
 
       if (datVar[i] == datVar[j]) {

@@ -8,5 +8,5 @@ Description: Calculating dissimilarity matrices when data are all or nearly all 
 License: GPL-3
 Encoding: UTF-8
 Imports: Rcpp, cluster
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0
 LinkingTo: Rcpp

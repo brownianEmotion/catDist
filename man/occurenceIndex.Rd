@@ -4,7 +4,8 @@
 \alias{occurenceIndex}
 \title{Occurence (or inverse occurence) index for categorical data}
 \usage{
-occurenceIndex(dat, key = NULL, weights, simm = FALSE, inverse = TRUE)
+occurenceIndex(dat, key = NULL, weights, simm = FALSE,
+  inverse = TRUE)
 }
 \arguments{
 \item{dat}{the data}

@@ -4,7 +4,8 @@
 \alias{goodallIndex}
 \title{Goodall Index (Versions 1,2,3, and 4) for categorical data}
 \usage{
-goodallIndex(dat, key = NULL, weights = NULL, simm = TRUE, type = 1)
+goodallIndex(dat, key = NULL, weights = NULL, simm = FALSE,
+  type = 1, diag = FALSE)
 }
 \arguments{
 \item{dat}{the data}
