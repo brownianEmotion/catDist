@@ -29,7 +29,7 @@
 #' @param ... additional arguments to be passed to daisy for continuous variables
 #' @importFrom cluster daisy
 #' @export
-catDist <- function(dat, method = "goodall1", key = NULL,  weights = NULL, simm = FALSE,metric = 'manhattan',...) {
+catDist <- function(dat, method = "goodall1", key = NULL,  weights = NULL, simm = FALSE,diag = TRUE,metric = 'manhattan',...) {
   dat2 <- droplevels(dat)
   #check for errors
   if(!is.data.frame(dat2)) {
@@ -75,18 +75,18 @@ catDist <- function(dat, method = "goodall1", key = NULL,  weights = NULL, simm 
     dist <- occurenceIndex(dat2,key,weights,simm, inverse = FALSE)
 
   } else if (method == "goodall1") {
-    dist <- goodallIndex(dat2, key, weights, simm, type = 1)
+    dist <- goodallIndex(dat2, key, weights, simm, type = 1,diag=diag)
   } else if (method == "goodall2") {
 
-    dist <- goodallIndex(dat2,key,weights,simm, type = 2)
+    dist <- goodallIndex(dat2,key,weights,simm, type = 2,diag=diag)
 
   } else if (method == "goodall3") {
 
-    dist <- goodallIndex(dat2,key,weights,simm, type = 3)
+    dist <- goodallIndex(dat2,key,weights,simm, type = 3,diag=diag)
 
   } else if (method == "goodall4") {
 
-    dist <- goodallIndex(dat2,key,weights,simm, type = 4)
+    dist <- goodallIndex(dat2,key,weights,simm, type = 4,diag=diag)
 
   # } else if (method == "smirnov") {
   #   #TODO

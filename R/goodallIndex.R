@@ -16,7 +16,7 @@
 #' index first proposed by Goodall.
 #' @useDynLib catDist
 #' @importFrom Rcpp sourceCpp
-goodallIndex <- function(dat, key = NULL, weights = NULL, simm = TRUE,type = 1) {
+goodallIndex <- function(dat, key = NULL, weights = NULL, simm = TRUE,type = 1,diag=FALSE) {
   dist <- matrix(0, nrow =nrow(dat), ncol = nrow(dat))   #matrix to be returned
 
   #if key is provided, name the columns of dist:
@@ -88,13 +88,17 @@ goodallIndex <- function(dat, key = NULL, weights = NULL, simm = TRUE,type = 1) 
 
   #manually assign diagonals to 0 and divide by total number of values
   dist <- dist/numVars
-
-  if (simm) {
-    diag(dist) <- 1
-  } else {
-    dist <- 1- dist
-    diag(dist) <- 0
+  if (diag) {
+    if (simm) {
+      diag(dist) <- 1
+    } else {
+      dist <- 1- dist
+      diag(dist) <- 0
+    }
+  } else if (!simm) {
+    dist <- 1-dist
   }
+  
 
   return(dist)
 }
