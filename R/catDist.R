@@ -75,7 +75,7 @@ catDist <- function(dat, method = "goodall1", key = NULL,  weights = NULL, simm 
     dist <- occurenceIndex(dat2,key,weights,simm, inverse = FALSE)
 
   } else if (method == "goodall1") {
-    dist <- goodallIndex(dat2, key, weights, simm, type = 1,diag=diag)
+    dist <- goodallIndex(dat2, key, weights, simm = simm, type = 1,diag=diag)
   } else if (method == "goodall2") {
 
     dist <- goodallIndex(dat2,key,weights,simm, type = 2,diag=diag)

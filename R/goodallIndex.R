@@ -54,6 +54,7 @@ goodallIndex <- function(dat, key = NULL, weights = NULL, simm = FALSE,type = 1,
       }
 
       if (type == 1) {
+        #shouldn't be 1 -?
         return(1 - sum(ifelse(freqs <= freqs[p],freqs*(freqs - 1),0))/(m*(m-1)))
       } else if (type == 2) {
         return(1 - sum(ifelse(freqs >= freqs[p],freqs*(freqs - 1),0))/(m*(m-1)))
@@ -96,8 +97,6 @@ goodallIndex <- function(dat, key = NULL, weights = NULL, simm = FALSE,type = 1,
   if (!simm) {
     dist <- 1-dist
   }
-
-
 
   return(dist)
 }
