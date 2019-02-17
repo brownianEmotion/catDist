@@ -43,10 +43,10 @@ goodallIndex <- function(dat, key = NULL, weights = NULL, simm = FALSE,type = 1,
       })
     }
 
-    distLookup <- rep(0, length(freqs))
+    #distLookup <- rep(0, length(freqs))
     
 
-    distLookup <- sapply(names(distLookup), function(p) {
+    distLookup <- sapply(names(freqs), function(p) {
       if(!is.null(weights)) {
         m <- sum(dat[,weights])
       } else {
