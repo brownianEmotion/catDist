@@ -44,7 +44,7 @@ goodallIndex <- function(dat, key = NULL, weights = NULL, simm = FALSE,type = 1,
     }
 
     distLookup <- rep(0, length(freqs))
-    names(distLookup) <- names(freqs)
+    
 
     distLookup <- sapply(names(distLookup), function(p) {
       if(!is.null(weights)) {
@@ -67,6 +67,8 @@ goodallIndex <- function(dat, key = NULL, weights = NULL, simm = FALSE,type = 1,
       }
 
     })
+    
+    names(distLookup) <- names(freqs)
 
 
     #gather the goodall index for this variable
